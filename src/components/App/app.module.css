@@ -1,3 +1,20 @@
+:root {
+  --primary-color: rgb(26, 115, 232);
+  --primary-darker-color: rgb(66, 133, 244);
+  --primary-lighter-color: rgb(3, 155, 229);
+  --secondary-color: rgb(232, 240, 254);
+  --white-color: #fff;
+  --border-color: rgb(218, 220, 224);
+  --light-grey-color: rgb(241, 243, 244);
+  --dark-grey-color: rgb(60, 64, 67);
+  --error-color: rgb(217, 48, 37);
+
+  --thin-border: 1px solid var(--border-color);
+  --error-border: 2px solid var(--error-color);
+  --focused-border: 2px solid var(--primary-color);
+  --border-radius: 5px;
+}
+
 .appWrapper {
   height: 100%;
   display: flex;

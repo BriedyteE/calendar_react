@@ -1,0 +1,38 @@
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cell {
+  height: 35px;
+  width: 35px;
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: var(--dark-grey-color);
+  cursor: pointer;
+}
+
+.cell:not(.headerCell, .selected, .currentDay):hover {
+  background-color: var(--light-grey-color);
+}
+
+.headerCell {
+  cursor: default;
+}
+
+.currentDay {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+}
+
+.currentMonth {
+  font-weight: 500;
+}
+
+.selected {
+  background-color: var(--secondary-color);
+}

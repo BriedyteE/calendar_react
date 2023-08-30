@@ -24,6 +24,10 @@
   cursor: default;
 }
 
+.selected {
+  background-color: var(--secondary-color);
+}
+
 .currentDay {
   background-color: var(--primary-color);
   color: var(--white-color);
@@ -31,8 +35,4 @@
 
 .currentMonth {
   font-weight: 500;
-}
-
-.selected {
-  background-color: var(--secondary-color);
 }

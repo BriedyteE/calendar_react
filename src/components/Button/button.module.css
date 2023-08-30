@@ -1,0 +1,13 @@
+.plainBtn {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 8px 15px;
+  background: none;
+  cursor: pointer;
+}
+
+.plainBtn:hover {
+  background-color: var(--light-grey-color);
+}

@@ -4,13 +4,9 @@
   flex-direction: column;
 }
 
-.header {
-  height: 60px;
-}
-
 .sidebarAndMain {
   display: flex;
-  height: 100%;
+  height: calc(100% - 60px);
 }
 
 .main {

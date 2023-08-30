@@ -53,14 +53,13 @@ function MonthCalendar({
                 7 * rowIndex
             );
 
-            const { formattedDate, year, month, dayOfMonth } =
-              getDateData(cellDate);
+            const { formattedDate, month, dayOfMonth } = getDateData(cellDate);
             return (
               <time
                 className={getCellClass(formattedDate, month)}
                 key={formattedDate}
                 dateTime={formattedDate}
-                onClick={() => onCellClick(new Date(year, month, 1))}
+                onClick={() => onCellClick(cellDate)}
               >
                 {dayOfMonth}
               </time>

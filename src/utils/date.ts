@@ -36,3 +36,7 @@ export const getFirstDateOfWeek = (date: Date) => {
     date.getDate() - date.getDay()
   );
 };
+
+export const getFirstDateOfMonth = (date: Date) => {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+};

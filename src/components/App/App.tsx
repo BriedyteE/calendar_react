@@ -19,6 +19,7 @@ function App() {
           miniCalMonthStart={miniCalMonthStart}
           currentDate={currentDate.formattedDate}
           setMiniCalMonthStart={(date) => setMiniCalMonthStart(date)}
+          setSelectedDate={(date) => setSelectedDate(date)}
         />
         <main className={Styles.main}>
           <Weekcalendar

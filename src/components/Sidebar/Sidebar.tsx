@@ -1,5 +1,5 @@
 import { MONTHS } from "../../config/constants";
-import { getAdjecentMonth } from "../../utils/date";
+import { getAdjecentMonth, getFirstDateOfMonth } from "../../utils/date";
 
 import Styles from "./sidebar.module.css";
 
@@ -10,11 +10,13 @@ interface SidebarProps {
   miniCalMonthStart: Date;
   currentDate: string;
   setMiniCalMonthStart: (date: Date) => void;
+  setSelectedDate: (date: Date) => void;
 }
 
 function Sidebar({
   miniCalMonthStart,
   setMiniCalMonthStart,
+  setSelectedDate,
   currentDate,
 }: SidebarProps) {
   return (
@@ -40,7 +42,10 @@ function Sidebar({
         monthStartDate={miniCalMonthStart}
         selectedDate={"2023-08-30"}
         currentDate={currentDate}
-        onCellClick={setMiniCalMonthStart}
+        onCellClick={(cellDate) => {
+          setMiniCalMonthStart(getFirstDateOfMonth(cellDate));
+          setSelectedDate(cellDate);
+        }}
       />
     </aside>
   );

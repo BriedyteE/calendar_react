@@ -9,7 +9,7 @@ interface MonthCalendarProps {
   monthStartDate: Date;
   selectedDate: string;
   currentDate: string;
-  onCellClick: () => void;
+  onCellClick: (date: Date) => void;
 }
 
 function MonthCalendar({
@@ -56,13 +56,14 @@ function MonthCalendar({
                 7 * rowIndex
             );
 
-            const { formattedDate, dayOfMonth, month } = getDateData(cellDate);
+            const { formattedDate, year, month, dayOfMonth } =
+              getDateData(cellDate);
             return (
               <time
                 className={getCellClass(formattedDate, month)}
                 key={formattedDate}
                 dateTime={formattedDate}
-                onClick={onCellClick}
+                onClick={() => onCellClick(new Date(year, month, 1))}
               >
                 {dayOfMonth}
               </time>

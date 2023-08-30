@@ -18,7 +18,7 @@ function App() {
             monthStartDate={miniCalMonthStart}
             selectedDate={"2023-08-30"}
             currentDate={currentDate.formattedDate}
-            onCellClick={() => {}}
+            onCellClick={(date) => setMiniCalMonthStart(date)}
           />
         </aside>
 

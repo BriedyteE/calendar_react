@@ -1,4 +1,7 @@
 import Styles from "./monthCalendar.module.css";
+
+import NavigationButtons from "../NavigationButtons";
+
 import { getDateData } from "../../utils/date.ts";
 import { DAY_NAMES } from "../../config/constants.ts";
 
@@ -30,6 +33,7 @@ function MonthCalendar({
 
   return (
     <>
+      <NavigationButtons onLeftClick={() => {}} onRightClick={() => {}} />
       <div className={Styles.row}>
         {daysIndexes.map((index) => (
           <div

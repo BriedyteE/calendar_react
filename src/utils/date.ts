@@ -28,3 +28,11 @@ export const getAdjecentMonth = ({ date, isPrevious }: GetAdjecentMonth) => {
   const month = date.getMonth();
   return new Date(date.getFullYear(), isPrevious ? month - 1 : month + 1, 1);
 };
+
+export const getFirstDateOfWeek = (date: Date) => {
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate() - date.getDay()
+  );
+};

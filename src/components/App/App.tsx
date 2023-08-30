@@ -1,48 +1,31 @@
 import { useState } from "react";
-import { getAdjecentMonth, getDateData } from "../../utils/date";
-import MonthCalendar from "../MonthCalendar/MonthCalendar";
+import { getDateData, getFirstDateOfWeek } from "../../utils/date";
 import Styles from "./app.module.css";
-import NavigationButtons from "../NavigationButtons";
-import { MONTHS } from "../../config/constants";
+import Sidebar from "../Sidebar/Sidebar";
+import Weekcalendar from "../WeekCalendar";
 
 function App() {
   const currentDate = getDateData(new Date());
   const [miniCalMonthStart, setMiniCalMonthStart] = useState(
     new Date(currentDate.year, currentDate.month, 1)
   );
+  const [selectedDate, setSelectedDate] = useState(currentDate.date);
 
   return (
     <div className={Styles.appWrapper}>
       <header className={Styles.header}></header>
       <div className={Styles.sidebarAndMain}>
-        <aside className={Styles.sidebar}>
-          <div className={Styles.navigationHeader}>
-            <div className={Styles.navigationHeader}>
-              <p>{`${
-                MONTHS[miniCalMonthStart.getMonth()]
-              } ${miniCalMonthStart.getFullYear()}`}</p>
-            </div>
-
-            <NavigationButtons
-              onNavigationClick={({ isLeft }) =>
-                setMiniCalMonthStart(
-                  getAdjecentMonth({
-                    date: miniCalMonthStart,
-                    isPrevious: isLeft,
-                  })
-                )
-              }
-            />
-          </div>
-          <MonthCalendar
-            monthStartDate={miniCalMonthStart}
-            selectedDate={"2023-08-30"}
+        <Sidebar
+          miniCalMonthStart={miniCalMonthStart}
+          currentDate={currentDate.formattedDate}
+          setMiniCalMonthStart={(date) => setMiniCalMonthStart(date)}
+        />
+        <main className={Styles.main}>
+          <Weekcalendar
+            weekStartDate={getFirstDateOfWeek(selectedDate)}
             currentDate={currentDate.formattedDate}
-            onCellClick={(date) => setMiniCalMonthStart(date)}
           />
-        </aside>
-
-        <main className={Styles.main}></main>
+        </main>
       </div>
     </div>
   );

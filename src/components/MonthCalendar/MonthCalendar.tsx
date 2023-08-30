@@ -41,6 +41,7 @@ function MonthCalendar({
           </div>
         ))}
       </div>
+
       {rowIndexes.map((rowIndex) => (
         <div className={Styles.row} key={rowIndex}>
           {daysIndexes.map((cellIndex) => {
@@ -49,8 +50,9 @@ function MonthCalendar({
               monthStart.month,
               monthStart.dayOfMonth -
                 monthStart.dayOfWeek +
+                7 * rowIndex +
                 cellIndex +
-                7 * rowIndex
+                1
             );
 
             const { formattedDate, month, dayOfMonth } = getDateData(cellDate);

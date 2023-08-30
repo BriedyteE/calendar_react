@@ -1,3 +1,9 @@
+.navigationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .appWrapper {
   height: 100%;
   display: flex;

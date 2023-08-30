@@ -8,32 +8,36 @@ export enum NavigationBtnVariant {
 
 interface NavigationButtonProps {
   variant?: NavigationBtnVariant;
-  onLeftClick: () => void;
-  onRightClick: () => void;
+  onNavigationClick: ({ isLeft }: { isLeft: boolean }) => void;
 }
 
 function NavigationButtons({
   variant = NavigationBtnVariant.Small,
-  onLeftClick,
-  onRightClick,
+  onNavigationClick,
 }: NavigationButtonProps) {
   return (
-    <>
-      <button className={Styles.button} onClick={onLeftClick}>
+    <div>
+      <button
+        className={Styles.button}
+        onClick={() => onNavigationClick({ isLeft: true })}
+      >
         <img
           src={navigationArrow}
           alt="Navigate back"
           className={`${Styles[variant]} ${Styles.left}`}
         />
       </button>
-      <button className={Styles.button} onClick={onRightClick}>
+      <button
+        className={Styles.button}
+        onClick={() => onNavigationClick({ isLeft: false })}
+      >
         <img
           src={navigationArrow}
-          alt="Navigate back"
+          alt="Navigate forward"
           className={Styles[variant]}
         />
       </button>
-    </>
+    </div>
   );
 }
 

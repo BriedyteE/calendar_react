@@ -1,3 +1,8 @@
+interface GetAdjecentMonth {
+  date: Date;
+  isPrevious: boolean;
+}
+
 export const getDateData = (date: Date) => {
   const dayOfWeek = date.getDay();
   const dayOfMonth = date.getDate();
@@ -17,4 +22,9 @@ export const getDateData = (date: Date) => {
     formattedDate,
     date,
   };
+};
+
+export const getAdjecentMonth = ({ date, isPrevious }: GetAdjecentMonth) => {
+  const month = date.getMonth();
+  return new Date(date.getFullYear(), isPrevious ? month - 1 : month + 1, 1);
 };

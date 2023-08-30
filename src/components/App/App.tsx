@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { getDateData } from "../../utils/date";
+import { getAdjecentMonth, getDateData } from "../../utils/date";
 import MonthCalendar from "../MonthCalendar/MonthCalendar";
 import Styles from "./app.module.css";
+import NavigationButtons from "../NavigationButtons";
+import { MONTHS } from "../../config/constants";
 
 function App() {
   const currentDate = getDateData(new Date());
@@ -14,6 +16,24 @@ function App() {
       <header className={Styles.header}></header>
       <div className={Styles.sidebarAndMain}>
         <aside className={Styles.sidebar}>
+          <div className={Styles.navigationHeader}>
+            <div className={Styles.navigationHeader}>
+              <p>{`${
+                MONTHS[miniCalMonthStart.getMonth()]
+              } ${miniCalMonthStart.getFullYear()}`}</p>
+            </div>
+
+            <NavigationButtons
+              onNavigationClick={({ isLeft }) =>
+                setMiniCalMonthStart(
+                  getAdjecentMonth({
+                    date: miniCalMonthStart,
+                    isPrevious: isLeft,
+                  })
+                )
+              }
+            />
+          </div>
           <MonthCalendar
             monthStartDate={miniCalMonthStart}
             selectedDate={"2023-08-30"}

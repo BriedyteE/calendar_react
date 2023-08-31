@@ -1,13 +1,26 @@
-.plainBtn {
-  border: 1px solid var(--border-color);
+.button {
   border-radius: 5px;
   font-size: 14px;
   font-weight: 400;
   padding: 8px 15px;
-  background: none;
   cursor: pointer;
 }
 
-.plainBtn:hover {
+.primary {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border: none;
+}
+
+.primary:hover {
+  background-color: var(--primary-darker-color);
+}
+
+.plain {
+  border: 1px solid var(--border-color);
+  background: none;
+}
+
+.plain:hover {
   background-color: var(--light-grey-color);
 }

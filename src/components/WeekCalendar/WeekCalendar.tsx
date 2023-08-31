@@ -3,13 +3,19 @@ import { convertTo12HourTime } from "../../utils/converters";
 import { getDateData } from "../../utils/date";
 import Styles from "./weekCalendar.module.css";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 interface WeekCalendarProps {
   weekStartDate: Date;
   currentDate: string;
+  onCellClick: (cellIndex: number) => void;
 }
 
-function Weekcalendar({ weekStartDate, currentDate }: WeekCalendarProps) {
+function Weekcalendar({
+  weekStartDate,
+  currentDate,
+  onCellClick,
+}: WeekCalendarProps) {
   const columnIndexes = [...Array(8).keys()];
   const cellIndexes = [...Array(25).keys()];
 
@@ -60,7 +66,13 @@ function Weekcalendar({ weekStartDate, currentDate }: WeekCalendarProps) {
                 );
               }
 
-              return <div className={Styles.cell} key={uuidv4()}></div>;
+              return (
+                <div
+                  onClick={() => onCellClick(cellIndex)}
+                  className={Styles.cell}
+                  key={uuidv4()}
+                ></div>
+              );
             })}
           </div>
         );

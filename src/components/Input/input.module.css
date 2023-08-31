@@ -1,0 +1,5 @@
+.input {
+  padding: 5px 10px;
+  border: var(--thin-border);
+  border-radius: 5px;
+}

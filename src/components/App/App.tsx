@@ -1,13 +1,16 @@
 import { useState } from "react";
+
 import {
   getDateData,
   getFirstDateOfMonth,
   getFirstDateOfWeek,
 } from "../../utils/date";
+
 import Styles from "./app.module.css";
-import Sidebar from "../Sidebar/Sidebar";
-import Weekcalendar from "../WeekCalendar";
+
+import Sidebar from "../Sidebar";
 import Header from "../Header";
+import MainSection from "../MainSection";
 
 function App() {
   const currentDate = getDateData(new Date());
@@ -37,12 +40,10 @@ function App() {
           setMiniCalMonthStart={(date) => setMiniCalMonthStart(date)}
           setSelectedDate={(date) => setSelectedDate(date)}
         />
-        <main className={Styles.main}>
-          <Weekcalendar
-            weekStartDate={getFirstDateOfWeek(selectedDate)}
-            currentDate={currentDate.formattedDate}
-          />
-        </main>
+        <MainSection
+          firstDateOfWeek={getFirstDateOfWeek(selectedDate)}
+          currentDate={currentDate.formattedDate}
+        />
       </div>
     </div>
   );

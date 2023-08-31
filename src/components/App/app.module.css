@@ -8,8 +8,3 @@
   display: flex;
   height: calc(100% - 60px);
 }
-
-.main {
-  height: 100%;
-  width: 80%;
-}

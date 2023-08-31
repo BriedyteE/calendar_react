@@ -1,6 +1,6 @@
 import { getAdjecentWeek } from "../../utils/date";
 
-import Button from "../Button";
+import Button, { ButtonVariant } from "../Button";
 import NavigationButtons, { NavigationBtnVariant } from "../NavigationButtons";
 
 import Styles from "./header.module.css";
@@ -26,7 +26,11 @@ function Header({
           )
         }
       />
-      <Button onClick={onTodayBtnClick} text="Today" />
+      <Button
+        onClick={onTodayBtnClick}
+        text="Today"
+        variant={ButtonVariant.Plain}
+      />
     </header>
   );
 }

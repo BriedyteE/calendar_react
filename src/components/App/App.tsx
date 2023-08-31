@@ -20,9 +20,14 @@ function App() {
   return (
     <div className={Styles.appWrapper}>
       <Header
+        selectedDate={selectedDate}
         onTodayBtnClick={() => {
           setMiniCalMonthStart(defaultMiniCalDate);
           setSelectedDate(currentDate.date);
+        }}
+        onNavigationClick={(date) => {
+          setMiniCalMonthStart(getFirstDateOfMonth(date));
+          setSelectedDate(date);
         }}
       />
       <div className={Styles.sidebarAndMain}>

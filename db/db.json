@@ -1,0 +1,20 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "description": "tdsdsfsypicode",
+      "startDate": "2023-08-31",
+      "start-time": "00:00",
+      "end-time": "00:30"
+    },
+    {
+      "id": 2,
+      "title": "json-server",
+      "description": "tdsdsfsypicode",
+      "startDate": "2023-08-29",
+      "start-time": "05:00",
+      "end-time": "05:30"
+    }
+  ]
+}

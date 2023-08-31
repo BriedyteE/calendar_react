@@ -18,7 +18,14 @@ function EventModal({ isModalVisible, onClose }: EventModalProps) {
   }
 
   return (
-    <div className={Styles.backdrop}>
+    <div
+      className={Styles.backdrop}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
       <div className={Styles.modal}>
         <div className={Styles.header}>
           <IconButton

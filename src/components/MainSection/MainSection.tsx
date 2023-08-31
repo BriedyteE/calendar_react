@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Weekcalendar from "../WeekCalendar";
 import EventModal from "../EventModal";
 
 import Styles from "./mainSection.module.css";
+import { CalendarEvent, fetchEvents } from "../../services/events";
 
 interface MainSectionProps {
   firstDateOfWeek: Date;
@@ -12,6 +13,22 @@ interface MainSectionProps {
 
 function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [events, setEvents] = useState<CalendarEvent[] | null>(null);
+
+  useEffect(() => {
+    const getEvents = async () => {
+      try {
+        const events = await fetchEvents();
+        if (events) {
+          setEvents(events);
+        }
+      } catch {
+        console.log("oh no");
+      }
+    };
+
+    getEvents();
+  }, []);
 
   return (
     <main className={Styles.main}>
@@ -19,6 +36,7 @@ function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
         weekStartDate={firstDateOfWeek}
         currentDate={currentDate}
         onCellClick={() => setIsModalVisible(true)}
+        events={events}
       />
       <EventModal
         isModalVisible={isModalVisible}

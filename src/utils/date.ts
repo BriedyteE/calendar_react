@@ -49,3 +49,13 @@ export const getFirstDateOfWeek = (date: Date) => {
 export const getFirstDateOfMonth = (date: Date) => {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 };
+
+export const getWeekColumnDayByIndex = (weekStartDate: Date, index: number) => {
+  return getDateData(
+    new Date(
+      weekStartDate.getFullYear(),
+      weekStartDate.getMonth(),
+      weekStartDate.getDate() + index
+    )
+  );
+};

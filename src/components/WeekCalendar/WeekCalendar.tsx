@@ -7,6 +7,8 @@ import { DAY_NAMES } from "../../config/constants";
 
 import HoursColumn from "./components/HoursColumn";
 import HeaderCell from "./components/HeaderCell";
+import EventSlot from "./components/EventSlot";
+import { useRef } from "react";
 
 interface WeekCalendarProps {
   weekStartDate: Date;
@@ -24,6 +26,18 @@ function Weekcalendar({
   const columnIndexes = [...Array(8).keys()];
   const cellIndexes = [...Array(25).keys()];
 
+  const cellRef = useRef<HTMLDivElement>(null);
+
+  const filterCellEvents = (columnDate: string, cellIndex: number) => {
+    const columnEvents = events?.filter(
+      (event) => event.startDate === columnDate
+    );
+
+    return columnEvents?.filter(
+      (event) => Number(event.startTime.split(":")[0]) === cellIndex - 1
+    );
+  };
+
   return (
     <div className={Styles.calendar}>
       {columnIndexes.map((columnIndex) => {
@@ -34,11 +48,12 @@ function Weekcalendar({
         return (
           <div className={Styles.dayColumn} key={uuidv4()}>
             {cellIndexes.map((cellIndex) => {
+              const columnDate = getWeekColumnDayByIndex(
+                weekStartDate,
+                columnIndex
+              );
+
               if (cellIndex === 0) {
-                const columnDate = getWeekColumnDayByIndex(
-                  weekStartDate,
-                  columnIndex
-                );
                 return (
                   <HeaderCell
                     columnIndex={columnIndex}
@@ -49,12 +64,32 @@ function Weekcalendar({
                 );
               }
 
+              const cellEvents = filterCellEvents(
+                columnDate.formattedDate,
+                cellIndex
+              );
+
               return (
                 <div
-                  onClick={() => onCellClick(cellIndex)}
+                  onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                      onCellClick(cellIndex);
+                    }
+                  }}
                   className={Styles.cell}
                   key={uuidv4()}
-                ></div>
+                  ref={cellRef}
+                >
+                  {cellEvents?.map((event) => (
+                    <EventSlot
+                      startTime={event.startTime}
+                      endTime={event.endTime}
+                      title={event.title}
+                      key={event.id}
+                      cellHeight={cellRef?.current?.offsetHeight || 0}
+                    />
+                  ))}
+                </div>
               );
             })}
           </div>

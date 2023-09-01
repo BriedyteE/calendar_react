@@ -2,19 +2,30 @@
   "events": [
     {
       "id": 1,
-      "title": "json-server",
+      "title": "sitas",
       "description": "tdsdsfsypicode",
-      "startDate": "2023-08-31",
-      "start-time": "00:00",
-      "end-time": "00:30"
+      "startDate": "2023-09-01",
+      "endDate": "2023-09-01",
+      "startTime": "00:10",
+      "endTime": "1:59"
     },
     {
       "id": 2,
       "title": "json-server",
       "description": "tdsdsfsypicode",
-      "startDate": "2023-08-29",
-      "start-time": "05:00",
-      "end-time": "05:30"
+      "startDate": "2023-09-01",
+      "endDate": "2023-09-01",
+      "startTime": "05:20",
+      "endTime": "05:30"
+    },
+    {
+      "id": 3,
+      "title": "aaa",
+      "description": "tdsdsfsypicode",
+      "startDate": "2023-08-28",
+      "endDate": "2023-09-01",
+      "startTime": "01:00",
+      "endTime": "05:30"
     }
   ]
 }

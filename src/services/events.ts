@@ -2,8 +2,9 @@ export interface CalendarEvent {
   id: number;
   title: string;
   description: string;
+  startDate: string;
   startTime: string;
-  endtime: string;
+  endTime: string;
 }
 
 export const fetchEvents = (): Promise<CalendarEvent[]> =>

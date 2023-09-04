@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import {
   getDateData,
@@ -12,21 +12,32 @@ import Sidebar from "../Sidebar";
 import Header from "../Header";
 import MainSection from "../MainSection";
 
-function App() {
-  const currentDate = getDateData(new Date());
-  const defaultMiniCalDate = getFirstDateOfMonth(currentDate.date);
+const currentDate = getDateData(new Date());
+const defaultDates = {
+  miniCalMonthStart: getFirstDateOfMonth(currentDate.date),
+  selectedDate: currentDate.date,
+};
 
-  const [miniCalMonthStart, setMiniCalMonthStart] =
-    useState(defaultMiniCalDate);
-  const [selectedDate, setSelectedDate] = useState(currentDate.date);
+function App() {
+  const [miniCalMonthStart, setMiniCalMonthStart] = useState(
+    defaultDates.miniCalMonthStart
+  );
+  const [selectedDate, setSelectedDate] = useState(defaultDates.selectedDate);
+
+  const firstDateOfWeek = useMemo(
+    () => getFirstDateOfWeek(selectedDate),
+    [selectedDate]
+  );
+
+  const { formattedDate } = getDateData(selectedDate);
 
   return (
     <div className={Styles.appWrapper}>
       <Header
         selectedDate={selectedDate}
         onTodayBtnClick={() => {
-          setMiniCalMonthStart(defaultMiniCalDate);
-          setSelectedDate(currentDate.date);
+          setMiniCalMonthStart(defaultDates.miniCalMonthStart);
+          setSelectedDate(defaultDates.selectedDate);
         }}
         onNavigationClick={(date) => {
           setMiniCalMonthStart(getFirstDateOfMonth(date));
@@ -39,9 +50,10 @@ function App() {
           currentDate={currentDate.formattedDate}
           setMiniCalMonthStart={(date) => setMiniCalMonthStart(date)}
           setSelectedDate={(date) => setSelectedDate(date)}
+          selectedDate={formattedDate}
         />
         <MainSection
-          firstDateOfWeek={getFirstDateOfWeek(selectedDate)}
+          firstDateOfWeek={firstDateOfWeek}
           currentDate={currentDate.formattedDate}
         />
       </div>

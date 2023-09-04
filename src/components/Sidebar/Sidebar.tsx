@@ -11,6 +11,7 @@ interface SidebarProps {
   currentDate: string;
   setMiniCalMonthStart: (date: Date) => void;
   setSelectedDate: (date: Date) => void;
+  selectedDate: string;
 }
 
 function Sidebar({
@@ -18,6 +19,7 @@ function Sidebar({
   setMiniCalMonthStart,
   setSelectedDate,
   currentDate,
+  selectedDate,
 }: SidebarProps) {
   return (
     <aside className={Styles.sidebar}>
@@ -40,7 +42,7 @@ function Sidebar({
 
       <MonthCalendar
         monthStartDate={miniCalMonthStart}
-        selectedDate={"2023-08-30"}
+        selectedDate={selectedDate}
         currentDate={currentDate}
         onCellClick={(cellDate) => {
           setMiniCalMonthStart(getFirstDateOfMonth(cellDate));

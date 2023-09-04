@@ -30,15 +30,11 @@ function Weekcalendar({
 
   const cellRef = useRef<HTMLDivElement>(null);
 
-  const filterCellEvents = (columnDate: string, cellIndex: number) => {
-    const columnEvents = events?.filter(
-      (event) => event.startDate === columnDate
-    );
-
-    return columnEvents?.filter(
-      (event) => Number(event.startTime.split(":")[0]) === cellIndex - 1
-    );
-  };
+  const filterCellEvents = (columnDate: string, cellIndex: number) =>
+    events?.filter((event) => {
+      const eventStartTime = Number(event.startTime.split(":")[0]);
+      return event.startDate === columnDate && eventStartTime === cellIndex - 1;
+    });
 
   return (
     <div className={Styles.calendar}>

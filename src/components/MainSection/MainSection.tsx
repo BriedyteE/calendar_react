@@ -12,7 +12,9 @@ interface MainSectionProps {
 }
 
 function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<null | CalendarEvent>(
+    null
+  );
   const [events, setEvents] = useState<CalendarEvent[] | null>(null);
 
   useEffect(() => {
@@ -35,12 +37,15 @@ function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
       <Weekcalendar
         weekStartDate={firstDateOfWeek}
         currentDate={currentDate}
-        onCellClick={() => setIsModalVisible(true)}
+        onCellClick={() => setSelectedEvent(null)}
         events={events}
+        onEventSlotClick={(event) => {
+          setSelectedEvent(event);
+        }}
       />
       <EventModal
-        isModalVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
+        modalEvent={selectedEvent}
+        onClose={() => setSelectedEvent(null)}
       />
     </main>
   );

@@ -15,6 +15,7 @@ interface WeekCalendarProps {
   currentDate: string;
   onCellClick: (cellIndex: number) => void;
   events: CalendarEvent[] | null;
+  onEventSlotClick: (event: CalendarEvent) => void;
 }
 
 function Weekcalendar({
@@ -22,6 +23,7 @@ function Weekcalendar({
   currentDate,
   onCellClick,
   events,
+  onEventSlotClick,
 }: WeekCalendarProps) {
   const columnIndexes = [...Array(8).keys()];
   const cellIndexes = [...Array(25).keys()];
@@ -87,6 +89,7 @@ function Weekcalendar({
                       title={event.title}
                       key={event.id}
                       cellHeight={cellRef?.current?.offsetHeight || 0}
+                      onClick={() => onEventSlotClick(event)}
                     />
                   ))}
                 </div>

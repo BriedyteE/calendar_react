@@ -79,4 +79,5 @@
   z-index: var(--zIndex-positive);
   min-height: 25px;
   text-align: left;
+  border: var(--thin-border);
 }

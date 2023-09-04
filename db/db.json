@@ -2,19 +2,19 @@
   "events": [
     {
       "id": 1,
-      "title": "sitas",
+      "title": "Vienas renginys",
       "description": "tdsdsfsypicode",
-      "startDate": "2023-09-01",
-      "endDate": "2023-09-01",
+      "startDate": "2023-09-05",
+      "endDate": "2023-09-05",
       "startTime": "00:10",
-      "endTime": "1:59"
+      "endTime": "12:00"
     },
     {
       "id": 2,
-      "title": "json-server",
+      "title": "Kitas renginys",
       "description": "tdsdsfsypicode",
-      "startDate": "2023-09-01",
-      "endDate": "2023-09-01",
+      "startDate": "2023-09-06",
+      "endDate": "2023-09-06",
       "startTime": "05:20",
       "endTime": "05:30"
     },

@@ -5,9 +5,16 @@ interface EventSlotProps {
   endTime: string;
   title: string;
   cellHeight: number;
+  onClick: () => void;
 }
 
-function EventSlot({ startTime, endTime, title, cellHeight }: EventSlotProps) {
+function EventSlot({
+  startTime,
+  endTime,
+  title,
+  cellHeight,
+  onClick,
+}: EventSlotProps) {
   const [startHour, startMinute] = startTime
     .split(":")
     .map((item) => Number(item));
@@ -20,7 +27,7 @@ function EventSlot({ startTime, endTime, title, cellHeight }: EventSlotProps) {
   const top = `${(startMinute * 100) / cellHeight}%`;
 
   return (
-    <div className={Styles.eventSlot} style={{ top, height }}>
+    <div className={Styles.eventSlot} style={{ top, height }} onClick={onClick}>
       {title} ({startTime})
     </div>
   );

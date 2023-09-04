@@ -6,14 +6,15 @@ import Close from "../../assets/close-btn.svg";
 import IconButton from "../IconButton";
 import Button from "../Button";
 import Input from "../Input";
+import { CalendarEvent } from "../../services/events";
 
 interface EventModalProps {
-  isModalVisible: boolean;
+  modalEvent: CalendarEvent | null;
   onClose: () => void;
 }
 
-function EventModal({ isModalVisible, onClose }: EventModalProps) {
-  if (!isModalVisible) {
+function EventModal({ modalEvent, onClose }: EventModalProps) {
+  if (!modalEvent) {
     return null;
   }
 
@@ -37,11 +38,11 @@ function EventModal({ isModalVisible, onClose }: EventModalProps) {
         </div>
 
         <form className={Styles.form}>
-          <Input type="text" />
+          <Input type="text" value={modalEvent.title} />
           <div className={Styles.date}>
-            <Input type="date" />
-            <Input type="time" />
-            <Input type="time" />
+            <Input type="date" value={modalEvent.startDate} />
+            <Input type="time" value={modalEvent.startTime} />
+            <Input type="time" value={modalEvent.endTime} />
           </div>
           <textarea rows={6}></textarea>
           <div>

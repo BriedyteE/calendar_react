@@ -13,7 +13,7 @@ import { useRef } from "react";
 interface WeekCalendarProps {
   weekStartDate: Date;
   currentDate: string;
-  onCellClick: (cellIndex: number) => void;
+  onCellClick: (e: React.MouseEvent, cellIndex: number, date: string) => void;
   events: CalendarEvent[] | null;
   onEventSlotClick: (event: CalendarEvent) => void;
 }
@@ -32,8 +32,8 @@ function Weekcalendar({
 
   const filterCellEvents = (columnDate: string, cellIndex: number) =>
     events?.filter((event) => {
-      const eventStartTime = Number(event.startTime.split(":")[0]);
-      return event.startDate === columnDate && eventStartTime === cellIndex - 1;
+      const eventStartHour = Number(event.startTime.split(":")[0]);
+      return event.startDate === columnDate && eventStartHour === cellIndex - 1;
     });
 
   return (
@@ -69,11 +69,9 @@ function Weekcalendar({
 
               return (
                 <div
-                  onClick={(e) => {
-                    if (e.target === e.currentTarget) {
-                      onCellClick(cellIndex);
-                    }
-                  }}
+                  onClick={(e) =>
+                    onCellClick(e, cellIndex, columnDate.formattedDate)
+                  }
                   className={Styles.cell}
                   key={uuidv4()}
                   ref={cellRef}

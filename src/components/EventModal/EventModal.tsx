@@ -6,14 +6,21 @@ import Close from "../../assets/close-btn.svg";
 import IconButton from "../IconButton";
 import Button from "../Button";
 import Input from "../Input";
-import { CalendarEvent } from "../../services/events";
+import { SelectedEvent } from "../../types/events";
 
 interface EventModalProps {
-  modalEvent: CalendarEvent | null;
+  modalEvent: SelectedEvent | null;
   onClose: () => void;
+  onSubmit: (e: React.FormEvent) => void;
+  setSelectedEvent: (event: SelectedEvent) => void;
 }
 
-function EventModal({ modalEvent, onClose }: EventModalProps) {
+function EventModal({
+  modalEvent,
+  onClose,
+  onSubmit,
+  setSelectedEvent,
+}: EventModalProps) {
   if (!modalEvent) {
     return null;
   }
@@ -29,20 +36,45 @@ function EventModal({ modalEvent, onClose }: EventModalProps) {
     >
       <div className={Styles.modal}>
         <div className={Styles.header}>
-          <IconButton
-            imageSrc={DeleteIcon}
-            altText="Delete"
-            onClick={onClose}
-          />
+          {modalEvent.id && (
+            <IconButton
+              imageSrc={DeleteIcon}
+              altText="Delete"
+              onClick={onClose}
+            />
+          )}
           <IconButton imageSrc={Close} altText="Close" onClick={onClose} />
         </div>
 
-        <form className={Styles.form}>
-          <Input type="text" value={modalEvent.title} />
+        <form className={Styles.form} onSubmit={(e) => onSubmit(e)}>
+          <Input
+            type="text"
+            value={modalEvent.title}
+            placeholder="Add title"
+            onChange={(title) => setSelectedEvent({ ...modalEvent, title })}
+          />
           <div className={Styles.date}>
-            <Input type="date" value={modalEvent.startDate} />
-            <Input type="time" value={modalEvent.startTime} />
-            <Input type="time" value={modalEvent.endTime} />
+            <Input
+              type="date"
+              value={modalEvent.startDate}
+              onChange={(startDate) =>
+                setSelectedEvent({ ...modalEvent, startDate })
+              }
+            />
+            <Input
+              type="time"
+              value={modalEvent.startTime}
+              onChange={(startTime) =>
+                setSelectedEvent({ ...modalEvent, startTime })
+              }
+            />
+            <Input
+              type="time"
+              value={modalEvent.endTime}
+              onChange={(endTime) =>
+                setSelectedEvent({ ...modalEvent, endTime })
+              }
+            />
           </div>
           <textarea rows={6}></textarea>
           <div>

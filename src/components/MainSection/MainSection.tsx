@@ -4,7 +4,12 @@ import Weekcalendar from "../WeekCalendar";
 import EventModal from "../EventModal";
 
 import Styles from "./mainSection.module.css";
-import { CalendarEvent, fetchEvents, updateEvent } from "../../services/events";
+import {
+  CalendarEvent,
+  fetchEvents,
+  updateEvent,
+  saveEvent,
+} from "../../services/events";
 import { SelectedEvent } from "../../types/events";
 import { converIndexToHour } from "../../utils/converters";
 
@@ -66,6 +71,21 @@ function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
       };
 
       update();
+      return;
+    }
+
+    if (selectedEvent) {
+      const save = async () => {
+        try {
+          const newEvent = await saveEvent(selectedEvent);
+          setEvents([...events, newEvent]);
+          setSelectedEvent(null);
+        } catch {
+          console.log("oh no");
+        }
+      };
+
+      save();
     }
   };
 

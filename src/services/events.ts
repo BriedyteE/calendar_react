@@ -1,3 +1,5 @@
+import { SelectedEvent } from "../types/events";
+
 export interface CalendarEvent {
   id: number;
   title: string;
@@ -16,7 +18,20 @@ export const updateEvent = (
   updatedEvent: CalendarEvent
 ): Promise<CalendarEvent> =>
   fetch(`http://localhost:3000/events/${updatedEvent.id}`, {
-    method: "PUT", // or 'PATCH' depending on your server's API
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedEvent),
+  }).then(function (response) {
+    return response.json();
+  });
+
+export const saveEvent = (
+  updatedEvent: SelectedEvent
+): Promise<CalendarEvent> =>
+  fetch(`http://localhost:3000/events`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },

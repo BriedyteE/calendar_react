@@ -1,20 +1,21 @@
 import Styles from "./weekCalendar.module.css";
+import { v4 as uuidv4 } from "uuid";
 
 import { getWeekColumnDayByIndex } from "../../utils/date";
-import { v4 as uuidv4 } from "uuid";
-import { CalendarEvent } from "../../services/events";
 import { DAY_NAMES } from "../../config/constants";
+import { CalendarEvent } from "../../types/events";
 
 import HoursColumn from "./components/HoursColumn";
 import HeaderCell from "./components/HeaderCell";
 import EventSlot from "./components/EventSlot";
+
 import { useRef } from "react";
 
 interface WeekCalendarProps {
   weekStartDate: Date;
   currentDate: string;
   onCellClick: (e: React.MouseEvent, cellIndex: number, date: string) => void;
-  events: CalendarEvent[] | null;
+  events?: CalendarEvent[];
   onEventSlotClick: (event: CalendarEvent) => void;
 }
 

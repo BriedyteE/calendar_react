@@ -11,7 +11,8 @@ import { SelectedEvent } from "../../types/events";
 interface EventModalProps {
   modalEvent: SelectedEvent | null;
   onClose: () => void;
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (e: React.FormEvent, event: SelectedEvent) => void;
+  onDelete: (id: number) => void;
   setSelectedEvent: (event: SelectedEvent) => void;
 }
 
@@ -19,6 +20,7 @@ function EventModal({
   modalEvent,
   onClose,
   onSubmit,
+  onDelete,
   setSelectedEvent,
 }: EventModalProps) {
   if (!modalEvent) {
@@ -40,13 +42,13 @@ function EventModal({
             <IconButton
               imageSrc={DeleteIcon}
               altText="Delete"
-              onClick={onClose}
+              onClick={() => onDelete(modalEvent.id as number)}
             />
           )}
           <IconButton imageSrc={Close} altText="Close" onClick={onClose} />
         </div>
 
-        <form className={Styles.form} onSubmit={(e) => onSubmit(e)}>
+        <form className={Styles.form} onSubmit={(e) => onSubmit(e, modalEvent)}>
           <Input
             type="text"
             value={modalEvent.title}

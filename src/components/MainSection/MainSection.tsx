@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Weekcalendar from "../WeekCalendar";
 import EventModal from "../EventModal";
 
 import Styles from "./mainSection.module.css";
 import {
-  CalendarEvent,
-  fetchEvents,
-  updateEvent,
-  saveEvent,
+  useDeleteEventMutate,
+  useFetchEvents,
+  useSaveEventMutate,
+  useUpdateEventMutate,
 } from "../../services/events";
-import { SelectedEvent } from "../../types/events";
+import { CalendarEvent, SelectedEvent } from "../../types/events";
 import { converIndexToHour } from "../../utils/converters";
 
 interface MainSectionProps {
@@ -23,69 +23,46 @@ function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
     null
   );
 
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-
-  useEffect(() => {
-    const getEvents = async () => {
-      try {
-        const events = await fetchEvents();
-        if (events) {
-          setEvents(events);
-        }
-      } catch {
-        console.log("oh no");
-      }
-    };
-
-    getEvents();
-  }, []);
+  const { data: events } = useFetchEvents();
+  const updateEventMutate = useUpdateEventMutate();
+  const saveEventMutate = useSaveEventMutate();
+  const deleteEventMutate = useDeleteEventMutate();
 
   const createNewEvent = (cellIndex: number, date: string) => {
     const startHour = converIndexToHour(cellIndex);
-    const newEvent = {
+    return {
       title: "",
       startDate: date,
       startTime: `${startHour}:00`,
       endTime: `${startHour}:30`,
     };
-    setSelectedEvent(newEvent);
   };
 
-  const submitEvent = (e: React.FormEvent) => {
+  const submitEvent = async (
+    e: React.FormEvent,
+    selectedEvent: SelectedEvent
+  ) => {
     e.preventDefault();
 
-    if (selectedEvent?.id) {
-      const update = async () => {
-        try {
-          const updatedEvent = await updateEvent(
-            selectedEvent as CalendarEvent
-          );
-          setEvents([
-            ...events.filter((event) => event.id !== updatedEvent.id),
-            updatedEvent,
-          ]);
-          setSelectedEvent(null);
-        } catch {
-          console.log("oh no");
-        }
-      };
+    try {
+      if (selectedEvent?.id) {
+        await updateEventMutate.mutateAsync(selectedEvent as CalendarEvent);
+      } else {
+        await saveEventMutate.mutateAsync(selectedEvent);
+      }
 
-      update();
-      return;
+      setSelectedEvent(null);
+    } catch {
+      console.log("oh no");
     }
+  };
 
-    if (selectedEvent) {
-      const save = async () => {
-        try {
-          const newEvent = await saveEvent(selectedEvent);
-          setEvents([...events, newEvent]);
-          setSelectedEvent(null);
-        } catch {
-          console.log("oh no");
-        }
-      };
-
-      save();
+  const deleteEvent = async (id: number) => {
+    try {
+      await deleteEventMutate.mutateAsync(id);
+      setSelectedEvent(null);
+    } catch {
+      console.log("oh no");
     }
   };
 
@@ -96,7 +73,8 @@ function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
         currentDate={currentDate}
         onCellClick={(e, cellIndex, date) => {
           if (e.target === e.currentTarget) {
-            createNewEvent(cellIndex, date);
+            const newEvent = createNewEvent(cellIndex, date);
+            setSelectedEvent(newEvent);
           }
         }}
         events={events}
@@ -106,6 +84,7 @@ function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
         modalEvent={selectedEvent}
         onClose={() => setSelectedEvent(null)}
         onSubmit={submitEvent}
+        onDelete={deleteEvent}
         setSelectedEvent={(event) => setSelectedEvent(event)}
       />
     </main>

@@ -1,19 +1,17 @@
 import Styles from "./monthCalendar.module.css";
 
 import { getDateData } from "../../utils/date.ts";
-import { DAY_NAMES } from "../../config/constants.ts";
+import { DAY_NAMES, currentDate } from "../../config/constants.ts";
 
 interface MonthCalendarProps {
   monthStartDate: Date;
   selectedDate: string;
-  currentDate: string;
   onCellClick: (date: Date) => void;
 }
 
 function MonthCalendar({
   monthStartDate,
   selectedDate,
-  currentDate,
   onCellClick,
 }: MonthCalendarProps) {
   const monthStart = getDateData(monthStartDate);
@@ -22,7 +20,8 @@ function MonthCalendar({
 
   const getCellClass = (cellDate: string, cellMonth: number) => {
     const selected = cellDate === selectedDate ? Styles.selected : "";
-    const currentDay = cellDate === currentDate ? Styles.currentDay : "";
+    const currentDay =
+      cellDate === currentDate.formattedDate ? Styles.currentDay : "";
     const currentMonth =
       cellMonth === monthStart.month ? Styles.currentMonth : "";
 

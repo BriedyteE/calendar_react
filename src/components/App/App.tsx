@@ -1,17 +1,17 @@
-import { useMemo, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import {
-  getDateData,
-  getFirstDateOfMonth,
-  getFirstDateOfWeek,
-} from "../../utils/date";
-
 import Styles from "./app.module.css";
+
+import { useMemo } from "react";
+import { useReducer } from "react";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Sidebar from "../Sidebar";
 import Header from "../Header";
 import MainSection from "../MainSection";
+
+import { getDateData, getFirstDateOfWeek } from "../../utils/date";
+import { defaultDates } from "../../config/constants";
+import { datesReducer } from "../../reducers/datesReducer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,51 +25,27 @@ const queryClient = new QueryClient({
   },
 });
 
-const currentDate = getDateData(new Date());
-const defaultDates = {
-  miniCalMonthStart: getFirstDateOfMonth(currentDate.date),
-  selectedDate: currentDate.date,
-};
-
 function App() {
-  const [miniCalMonthStart, setMiniCalMonthStart] = useState(
-    defaultDates.miniCalMonthStart
-  );
-  const [selectedDate, setSelectedDate] = useState(defaultDates.selectedDate);
+  const [state, dispatch] = useReducer(datesReducer, defaultDates);
 
   const firstDateOfWeek = useMemo(
-    () => getFirstDateOfWeek(selectedDate),
-    [selectedDate]
+    () => getFirstDateOfWeek(state.selectedDate),
+    [state.selectedDate]
   );
 
-  const { formattedDate } = getDateData(selectedDate);
+  const { formattedDate } = getDateData(state.selectedDate);
 
   return (
     <QueryClientProvider client={queryClient}>
       <div className={Styles.appWrapper}>
-        <Header
-          selectedDate={selectedDate}
-          onTodayBtnClick={() => {
-            setMiniCalMonthStart(defaultDates.miniCalMonthStart);
-            setSelectedDate(defaultDates.selectedDate);
-          }}
-          onNavigationClick={(date) => {
-            setMiniCalMonthStart(getFirstDateOfMonth(date));
-            setSelectedDate(date);
-          }}
-        />
+        <Header selectedDate={state.selectedDate} dispatch={dispatch} />
         <div className={Styles.sidebarAndMain}>
           <Sidebar
-            miniCalMonthStart={miniCalMonthStart}
-            currentDate={currentDate.formattedDate}
-            setMiniCalMonthStart={(date) => setMiniCalMonthStart(date)}
-            setSelectedDate={(date) => setSelectedDate(date)}
+            dispatch={dispatch}
+            miniCalMonthStart={state.miniCalMonthStart}
             selectedDate={formattedDate}
           />
-          <MainSection
-            firstDateOfWeek={firstDateOfWeek}
-            currentDate={currentDate.formattedDate}
-          />
+          <MainSection firstDateOfWeek={firstDateOfWeek} />
         </div>
       </div>
     </QueryClientProvider>

@@ -15,10 +15,9 @@ import { converIndexToHour } from "../../utils/converters";
 
 interface MainSectionProps {
   firstDateOfWeek: Date;
-  currentDate: string;
 }
 
-function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
+function MainSection({ firstDateOfWeek }: MainSectionProps) {
   const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(
     null
   );
@@ -70,7 +69,6 @@ function MainSection({ firstDateOfWeek, currentDate }: MainSectionProps) {
     <main className={Styles.main}>
       <Weekcalendar
         weekStartDate={firstDateOfWeek}
-        currentDate={currentDate}
         onCellClick={(e, cellIndex, date) => {
           if (e.target === e.currentTarget) {
             const newEvent = createNewEvent(cellIndex, date);

@@ -1,4 +1,6 @@
-import { getAdjecentWeek } from "../../utils/date";
+import { defaultDates } from "../../config/constants";
+import { DateActionType, DateAction } from "../../types/datesReducer";
+import { getAdjecentWeek, getFirstDateOfMonth } from "../../utils/date";
 
 import Button, { ButtonVariant } from "../Button";
 import NavigationButtons, { NavigationBtnVariant } from "../NavigationButtons";
@@ -7,27 +9,44 @@ import Styles from "./header.module.css";
 
 interface HeaderProps {
   selectedDate: Date;
-  onTodayBtnClick: () => void;
-  onNavigationClick: (date: Date) => void;
+  dispatch: React.Dispatch<DateAction>;
 }
 
-function Header({
-  selectedDate,
-  onTodayBtnClick,
-  onNavigationClick,
-}: HeaderProps) {
+function Header({ selectedDate, dispatch }: HeaderProps) {
+  const navigateCalendarsByWeek = ({ isLeft }: { isLeft: boolean }) => {
+    const newSelectedDate = getAdjecentWeek({
+      date: selectedDate,
+      isPrevious: isLeft,
+    });
+
+    dispatch({
+      type: DateActionType.SetDates,
+      payload: {
+        dates: {
+          selectedDate: newSelectedDate,
+          miniCalMonthStart: getFirstDateOfMonth(newSelectedDate),
+        },
+      },
+    });
+  };
+
+  const navigateToDefaultDate = () => {
+    dispatch({
+      type: DateActionType.SetDates,
+      payload: {
+        dates: defaultDates,
+      },
+    });
+  };
+
   return (
     <header className={Styles.header}>
       <NavigationButtons
         variant={NavigationBtnVariant.Medium}
-        onNavigationClick={({ isLeft }) =>
-          onNavigationClick(
-            getAdjecentWeek({ date: selectedDate, isPrevious: isLeft })
-          )
-        }
+        onNavigationClick={navigateCalendarsByWeek}
       />
       <Button
-        onClick={onTodayBtnClick}
+        onClick={navigateToDefaultDate}
         text="Today"
         variant={ButtonVariant.Plain}
       />

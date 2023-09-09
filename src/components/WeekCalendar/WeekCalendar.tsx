@@ -2,7 +2,7 @@ import Styles from "./weekCalendar.module.css";
 import { v4 as uuidv4 } from "uuid";
 
 import { getWeekColumnDayByIndex } from "../../utils/date";
-import { DAY_NAMES } from "../../config/constants";
+import { DAY_NAMES, currentDate } from "../../config/constants";
 import { CalendarEvent } from "../../types/events";
 
 import HoursColumn from "./components/HoursColumn";
@@ -13,7 +13,6 @@ import { useRef } from "react";
 
 interface WeekCalendarProps {
   weekStartDate: Date;
-  currentDate: string;
   onCellClick: (e: React.MouseEvent, cellIndex: number, date: string) => void;
   events?: CalendarEvent[];
   onEventSlotClick: (event: CalendarEvent) => void;
@@ -21,7 +20,6 @@ interface WeekCalendarProps {
 
 function Weekcalendar({
   weekStartDate,
-  currentDate,
   onCellClick,
   events,
   onEventSlotClick,
@@ -57,7 +55,9 @@ function Weekcalendar({
                   <HeaderCell
                     columnIndex={columnIndex}
                     dayOfMonth={columnDate.dayOfMonth}
-                    isCurrentDay={columnDate.formattedDate === currentDate}
+                    isCurrentDay={
+                      columnDate.formattedDate === currentDate.formattedDate
+                    }
                     key={DAY_NAMES[columnIndex]}
                   />
                 );

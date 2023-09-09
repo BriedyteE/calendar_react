@@ -1,5 +1,6 @@
 import { MONTHS } from "../../config/constants";
 import { getAdjecentMonth, getFirstDateOfMonth } from "../../utils/date";
+import { DateAction, DateActionType } from "../../types/datesReducer";
 
 import Styles from "./sidebar.module.css";
 
@@ -8,19 +9,36 @@ import NavigationButtons from "../NavigationButtons";
 
 interface SidebarProps {
   miniCalMonthStart: Date;
-  currentDate: string;
-  setMiniCalMonthStart: (date: Date) => void;
-  setSelectedDate: (date: Date) => void;
+  dispatch: React.Dispatch<DateAction>;
   selectedDate: string;
 }
 
-function Sidebar({
-  miniCalMonthStart,
-  setMiniCalMonthStart,
-  setSelectedDate,
-  currentDate,
-  selectedDate,
-}: SidebarProps) {
+function Sidebar({ miniCalMonthStart, dispatch, selectedDate }: SidebarProps) {
+  const navigateToSelectedDate = (date: Date) => {
+    dispatch({
+      type: DateActionType.SetDates,
+      payload: {
+        dates: {
+          selectedDate: date,
+          miniCalMonthStart: getFirstDateOfMonth(date),
+        },
+      },
+    });
+  };
+
+  const navigateCalenarByMonth = ({ isPrevious }: { isPrevious: boolean }) => {
+    const adjecentMonth = getAdjecentMonth({
+      date: miniCalMonthStart,
+      isPrevious,
+    });
+    dispatch({
+      type: DateActionType.SetMiniCalMonthStart,
+      payload: {
+        date: adjecentMonth,
+      },
+    });
+  };
+
   return (
     <aside className={Styles.sidebar}>
       <div className={Styles.navigationItems}>
@@ -30,12 +48,7 @@ function Sidebar({
 
         <NavigationButtons
           onNavigationClick={({ isLeft }) =>
-            setMiniCalMonthStart(
-              getAdjecentMonth({
-                date: miniCalMonthStart,
-                isPrevious: isLeft,
-              })
-            )
+            navigateCalenarByMonth({ isPrevious: isLeft })
           }
         />
       </div>
@@ -43,11 +56,7 @@ function Sidebar({
       <MonthCalendar
         monthStartDate={miniCalMonthStart}
         selectedDate={selectedDate}
-        currentDate={currentDate}
-        onCellClick={(cellDate) => {
-          setMiniCalMonthStart(getFirstDateOfMonth(cellDate));
-          setSelectedDate(cellDate);
-        }}
+        onCellClick={navigateToSelectedDate}
       />
     </aside>
   );

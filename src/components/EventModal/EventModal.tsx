@@ -7,6 +7,7 @@ import IconButton from "../IconButton";
 import Button from "../Button";
 import Input from "../Input";
 import { SelectedEvent } from "../../types/events";
+import { DateAction, DateActionType } from "../../types/datesReducer";
 
 interface EventModalProps {
   modalEvent: SelectedEvent | null;
@@ -14,6 +15,7 @@ interface EventModalProps {
   onSubmit: (e: React.FormEvent, event: SelectedEvent) => void;
   onDelete: (id: number) => void;
   setSelectedEvent: (event: SelectedEvent) => void;
+  dispatch: React.Dispatch<DateAction>;
 }
 
 function EventModal({
@@ -22,10 +24,24 @@ function EventModal({
   onSubmit,
   onDelete,
   setSelectedEvent,
+  dispatch,
 }: EventModalProps) {
   if (!modalEvent) {
     return null;
   }
+
+  const changeDate = (date: string) => {
+    setSelectedEvent({ ...modalEvent, startDate: date });
+    dispatch({
+      type: DateActionType.SetDates,
+      payload: {
+        dates: {
+          selectedDate: new Date(date),
+          miniCalMonthStart: new Date(date),
+        },
+      },
+    });
+  };
 
   return (
     <div
@@ -59,9 +75,7 @@ function EventModal({
             <Input
               type="date"
               value={modalEvent.startDate}
-              onChange={(startDate) =>
-                setSelectedEvent({ ...modalEvent, startDate })
-              }
+              onChange={changeDate}
             />
             <Input
               type="time"

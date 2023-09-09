@@ -12,12 +12,14 @@ import {
 } from "../../services/events";
 import { CalendarEvent, SelectedEvent } from "../../types/events";
 import { converIndexToHour } from "../../utils/converters";
+import { DateAction } from "../../types/datesReducer";
 
 interface MainSectionProps {
   firstDateOfWeek: Date;
+  dispatch: React.Dispatch<DateAction>;
 }
 
-function MainSection({ firstDateOfWeek }: MainSectionProps) {
+function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
   const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(
     null
   );
@@ -76,6 +78,7 @@ function MainSection({ firstDateOfWeek }: MainSectionProps) {
           }
         }}
         events={events}
+        selectedEvent={selectedEvent}
         onEventSlotClick={(event) => setSelectedEvent(event)}
       />
       <EventModal
@@ -84,6 +87,7 @@ function MainSection({ firstDateOfWeek }: MainSectionProps) {
         onSubmit={submitEvent}
         onDelete={deleteEvent}
         setSelectedEvent={(event) => setSelectedEvent(event)}
+        dispatch={dispatch}
       />
     </main>
   );

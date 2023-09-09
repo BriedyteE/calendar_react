@@ -5,7 +5,8 @@ interface EventSlotProps {
   endTime: string;
   title: string;
   cellHeight: number;
-  onClick: () => void;
+  onClick?: () => void;
+  isSelected?: boolean;
 }
 
 function EventSlot({
@@ -14,6 +15,7 @@ function EventSlot({
   title,
   cellHeight,
   onClick,
+  isSelected,
 }: EventSlotProps) {
   const [startHour, startMinute] = startTime
     .split(":")
@@ -27,7 +29,11 @@ function EventSlot({
   const top = `${(startMinute * 100) / cellHeight}%`;
 
   return (
-    <div className={Styles.eventSlot} style={{ top, height }} onClick={onClick}>
+    <div
+      className={`${Styles.eventSlot} ${isSelected ? Styles.selected : ""}`}
+      style={{ top, height }}
+      onClick={onClick}
+    >
       {title} ({startTime})
     </div>
   );

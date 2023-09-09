@@ -41,6 +41,7 @@ function App() {
           />
           <MainSection
             firstDateOfWeek={getFirstDateOfWeek(state.selectedDate)}
+            dispatch={dispatch}
           />
         </div>
       </div>

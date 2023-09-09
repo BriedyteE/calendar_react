@@ -1,5 +1,4 @@
 import Styles from "./weekCalendar.module.css";
-import { v4 as uuidv4 } from "uuid";
 
 import { getWeekColumnDayByIndex } from "../../utils/date";
 import { DAY_NAMES, currentDate } from "../../config/constants";
@@ -39,17 +38,14 @@ function Weekcalendar({
     <div className={Styles.calendar}>
       {columnIndexes.map((columnIndex) => {
         if (columnIndex === 0) {
-          return <HoursColumn cellIndexes={cellIndexes} key={uuidv4()} />;
+          return <HoursColumn cellIndexes={cellIndexes} key={columnIndex} />;
         }
 
-        return (
-          <div className={Styles.dayColumn} key={uuidv4()}>
-            {cellIndexes.map((cellIndex) => {
-              const columnDate = getWeekColumnDayByIndex(
-                weekStartDate,
-                columnIndex
-              );
+        const columnDate = getWeekColumnDayByIndex(weekStartDate, columnIndex);
 
+        return (
+          <div className={Styles.dayColumn} key={columnDate.formattedDate}>
+            {cellIndexes.map((cellIndex) => {
               if (cellIndex === 0) {
                 return (
                   <HeaderCell
@@ -74,17 +70,17 @@ function Weekcalendar({
                     onCellClick(e, cellIndex, columnDate.formattedDate)
                   }
                   className={Styles.cell}
-                  key={uuidv4()}
                   ref={cellRef}
+                  key={cellIndex}
                 >
                   {cellEvents?.map((event) => (
                     <EventSlot
                       startTime={event.startTime}
                       endTime={event.endTime}
                       title={event.title}
-                      key={event.id}
                       cellHeight={cellRef?.current?.offsetHeight || 0}
                       onClick={() => onEventSlotClick(event)}
+                      key={event.id}
                     />
                   ))}
                 </div>

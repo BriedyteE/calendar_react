@@ -6,13 +6,18 @@
   cursor: pointer;
 }
 
+.button:disabled {
+  background-color: var(--light-grey-color);
+  color: var(--dark-grey-color);
+  cursor: default;
+}
+
 .primary {
   background-color: var(--primary-color);
   color: var(--white-color);
   border: none;
 }
-
-.primary:hover {
+.primary:hover:not(:disabled) {
   background-color: var(--primary-darker-color);
 }
 
@@ -21,6 +26,6 @@
   background: none;
 }
 
-.plain:hover {
+.plain:hover:not(:disabled) {
   background-color: var(--light-grey-color);
 }

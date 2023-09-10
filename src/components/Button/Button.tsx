@@ -6,18 +6,24 @@ export enum ButtonVariant {
 }
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
   variant?: ButtonVariant;
+  isDisabled?: boolean;
 }
 
 function Button({
-  onClick,
+  onClick = () => {},
   text,
   variant = ButtonVariant.Primary,
+  isDisabled,
 }: ButtonProps) {
   return (
-    <button onClick={onClick} className={`${Styles.button} ${Styles[variant]}`}>
+    <button
+      onClick={onClick}
+      className={`${Styles.button} ${Styles[variant]}`}
+      disabled={isDisabled}
+    >
       {text}
     </button>
   );

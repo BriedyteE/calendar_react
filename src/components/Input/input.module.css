@@ -1,5 +1,21 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .input {
   padding: 5px 10px;
   border: var(--thin-border);
   border-radius: 5px;
+}
+
+input.errored {
+  border-color: var(--error-color);
+}
+
+.error {
+  color: var(--error-color);
+  font-size: 14px;
+  flex-grow: 1;
+  display: inline-block;
 }

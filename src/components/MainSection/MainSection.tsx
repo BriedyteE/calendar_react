@@ -39,12 +39,7 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
     };
   };
 
-  const submitEvent = async (
-    e: React.FormEvent,
-    selectedEvent: SelectedEvent
-  ) => {
-    e.preventDefault();
-
+  const submitEvent = async (selectedEvent: SelectedEvent) => {
     try {
       if (selectedEvent?.id) {
         await updateEventMutate.mutateAsync(selectedEvent as CalendarEvent);
@@ -84,7 +79,7 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
       <EventModal
         modalEvent={selectedEvent}
         onClose={() => setSelectedEvent(null)}
-        onSubmit={submitEvent}
+        submitForm={submitEvent}
         onDelete={deleteEvent}
         setSelectedEvent={(event) => setSelectedEvent(event)}
         dispatch={dispatch}

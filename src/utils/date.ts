@@ -31,13 +31,12 @@ export const getAdjecentMonth = ({ date, isPrevious }: GetAdjecentDate) => {
   return new Date(date.getFullYear(), isPrevious ? month - 1 : month + 1, 1);
 };
 
-export const getAdjecentWeek = ({ date, isPrevious }: GetAdjecentDate) => {
+export const getDayCountingFromDate = (
+  date: Date,
+  daysCountFromDate: number
+) => {
   const day = date.getDate();
-  return new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    isPrevious ? day - 7 : day + 7
-  );
+  return new Date(date.getFullYear(), date.getMonth(), day + daysCountFromDate);
 };
 
 export const getFirstDateOfWeek = (date: Date) => {
@@ -49,22 +48,8 @@ export const getFirstDateOfMonth = (date: Date) => {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 };
 
-export const getWeekColumnDayByIndex = (weekStartDate: Date, index: number) => {
-  return getDateData(
-    new Date(
-      weekStartDate.getFullYear(),
-      weekStartDate.getMonth(),
-      weekStartDate.getDate() + index
-    )
-  );
-};
-
 export const getWeekDateRange = (firstDateOfWeek: Date) => {
-  const lastDateOfWeek = new Date(
-    firstDateOfWeek.getFullYear(),
-    firstDateOfWeek.getMonth(),
-    firstDateOfWeek.getDate() + 6
-  );
+  const lastDateOfWeek = getDayCountingFromDate(firstDateOfWeek, 6);
 
   const endOfWeek = [
     MONTHS[lastDateOfWeek.getMonth()],

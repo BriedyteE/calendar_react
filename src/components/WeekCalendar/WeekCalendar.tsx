@@ -1,6 +1,6 @@
 import Styles from "./weekCalendar.module.css";
 
-import { getWeekColumnDayByIndex } from "../../utils/date";
+import { getDateData, getDayCountingFromDate } from "../../utils/date";
 import { DAY_NAMES, currentDate } from "../../config/constants";
 import { CalendarEvent, SelectedEvent } from "../../types/events";
 
@@ -49,10 +49,11 @@ function Weekcalendar({
           return <HoursColumn cellIndexes={cellIndexes} key={columnIndex} />;
         }
 
-        const { dayOfMonth, formattedDate } = getWeekColumnDayByIndex(
+        const colunDate = getDayCountingFromDate(
           weekStartDate,
           columnIndex - 1
         );
+        const { formattedDate, dayOfMonth } = getDateData(colunDate);
 
         return (
           <div className={Styles.dayColumn} key={formattedDate}>

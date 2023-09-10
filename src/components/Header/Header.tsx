@@ -1,6 +1,6 @@
 import { defaultDates } from "../../config/constants";
 import { DateActionType, DateAction } from "../../types/datesReducer";
-import { getAdjecentWeek, getFirstDateOfMonth } from "../../utils/date";
+import { getDayCountingFromDate, getFirstDateOfMonth } from "../../utils/date";
 
 import Button, { ButtonVariant } from "../Button";
 import NavigationButtons, { NavigationBtnVariant } from "../NavigationButtons";
@@ -15,10 +15,10 @@ interface HeaderProps {
 
 function Header({ selectedDate, dispatch, dateRange }: HeaderProps) {
   const navigateCalendarsByWeek = ({ isLeft }: { isLeft: boolean }) => {
-    const newSelectedDate = getAdjecentWeek({
-      date: selectedDate,
-      isPrevious: isLeft,
-    });
+    const newSelectedDate = getDayCountingFromDate(
+      selectedDate,
+      isLeft ? -7 : 7
+    );
 
     dispatch({
       type: DateActionType.SetDates,

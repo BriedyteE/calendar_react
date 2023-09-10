@@ -57,7 +57,7 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
 
       setSelectedEvent(null);
     } catch {
-      console.log("oh no");
+      alert("Oops!");
     }
   };
 
@@ -66,7 +66,7 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
       await deleteEventMutate.mutateAsync(id);
       setSelectedEvent(null);
     } catch {
-      console.log("oh no");
+      alert("Oops!");
     }
   };
 

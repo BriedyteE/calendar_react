@@ -13,6 +13,7 @@ import { SelectedEvent } from "../../types/events";
 import { DateAction, DateActionType } from "../../types/datesReducer";
 
 import { isEventTimeValid } from "../../utils/validations";
+import { getFirstDateOfMonth } from "../../utils/date";
 
 interface EventModalProps {
   modalEvent: SelectedEvent | null;
@@ -51,12 +52,13 @@ function EventModal({
 
   const changeDate = (date: string) => {
     setSelectedEvent({ ...modalEvent, startDate: date });
+    const monthStart = getFirstDateOfMonth(new Date(date));
     dispatch({
       type: DateActionType.SetDates,
       payload: {
         dates: {
           selectedDate: new Date(date),
-          miniCalMonthStart: new Date(date),
+          miniCalMonthStart: monthStart,
         },
       },
     });

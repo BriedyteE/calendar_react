@@ -51,10 +51,10 @@ export const useFetchEvents = () =>
     queryFn: fetchEvents,
   });
 
-export const useSaveEventMutate = () => {
+export const useHandleEventMutate = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  const saveEventMutate = useMutation({
     mutationFn: saveEvent,
     onSuccess: (newEvent) => {
       queryClient.setQueryData<CalendarEvent[]>(["events"], (events) => [
@@ -63,12 +63,19 @@ export const useSaveEventMutate = () => {
       ]);
     },
   });
-};
 
-export const useUpdateEventMutate = () => {
-  const queryClient = useQueryClient();
+  const deleteEventMutate = useMutation({
+    mutationFn: deleteEvent,
+    onSuccess: (deletedEventId) => {
+      queryClient.setQueryData<CalendarEvent[]>(["events"], (events) => {
+        if (events) {
+          return events.filter((event) => event.id !== deletedEventId);
+        }
+      });
+    },
+  });
 
-  return useMutation({
+  const updateEventMutate = useMutation({
     mutationFn: updateEvent,
     onSuccess: (updatedEvent) => {
       queryClient.setQueryData<CalendarEvent[]>(["events"], (events) => {
@@ -80,19 +87,6 @@ export const useUpdateEventMutate = () => {
       });
     },
   });
-};
 
-export const useDeleteEventMutate = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: deleteEvent,
-    onSuccess: (deletedEventId) => {
-      queryClient.setQueryData<CalendarEvent[]>(["events"], (events) => {
-        if (events) {
-          return events.filter((event) => event.id !== deletedEventId);
-        }
-      });
-    },
-  });
+  return { updateEventMutate, saveEventMutate, deleteEventMutate };
 };

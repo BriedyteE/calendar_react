@@ -4,12 +4,7 @@ import Weekcalendar from "../WeekCalendar";
 import EventModal from "../EventModal";
 
 import Styles from "./mainSection.module.css";
-import {
-  useDeleteEventMutate,
-  useFetchEvents,
-  useSaveEventMutate,
-  useUpdateEventMutate,
-} from "../../services/events";
+import { useFetchEvents, useHandleEventMutate } from "../../services/events";
 import { CalendarEvent, SelectedEvent } from "../../types/events";
 import { converIndexToHour } from "../../utils/converters";
 import { DateAction } from "../../types/datesReducer";
@@ -24,16 +19,15 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
   const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(
     null
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const { data: events, error: fetchEventsError } = useFetchEvents();
-  const updateEventMutate = useUpdateEventMutate();
-  const saveEventMutate = useSaveEventMutate();
-  const deleteEventMutate = useDeleteEventMutate();
+  const { updateEventMutate, saveEventMutate, deleteEventMutate } =
+    useHandleEventMutate();
 
   useEffect(() => {
     if (fetchEventsError) {
-      setIsModalOpen(true);
+      setIsErrorModalOpen(true);
     }
   }, [fetchEventsError]);
 
@@ -92,8 +86,8 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
         setSelectedEvent={(event) => setSelectedEvent(event)}
         dispatch={dispatch}
       />
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
+      {isErrorModalOpen && (
+        <Modal onClose={() => setIsErrorModalOpen(false)}>
           <p className={Styles.error}>Oops! Failed to fetch events!</p>
           <p className={Styles.error}>
             Please, make sure that the{" "}

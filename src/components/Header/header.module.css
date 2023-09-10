@@ -3,4 +3,6 @@
   border-bottom: var(--thin-border);
   display: flex;
   align-items: center;
+  padding: 30px;
+  gap: 10px;
 }

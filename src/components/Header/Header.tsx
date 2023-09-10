@@ -10,9 +10,10 @@ import Styles from "./header.module.css";
 interface HeaderProps {
   selectedDate: Date;
   dispatch: React.Dispatch<DateAction>;
+  dateRange: string;
 }
 
-function Header({ selectedDate, dispatch }: HeaderProps) {
+function Header({ selectedDate, dispatch, dateRange }: HeaderProps) {
   const navigateCalendarsByWeek = ({ isLeft }: { isLeft: boolean }) => {
     const newSelectedDate = getAdjecentWeek({
       date: selectedDate,
@@ -41,15 +42,16 @@ function Header({ selectedDate, dispatch }: HeaderProps) {
 
   return (
     <header className={Styles.header}>
-      <NavigationButtons
-        variant={NavigationBtnVariant.Medium}
-        onNavigationClick={navigateCalendarsByWeek}
-      />
       <Button
         onClick={navigateToDefaultDate}
         text="Today"
         variant={ButtonVariant.Plain}
       />
+      <NavigationButtons
+        variant={NavigationBtnVariant.Medium}
+        onNavigationClick={navigateCalendarsByWeek}
+      />
+      <p>{dateRange}</p>
     </header>
   );
 }

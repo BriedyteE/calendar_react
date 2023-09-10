@@ -1,3 +1,5 @@
+import { MONTHS } from "../config/constants";
+
 interface GetAdjecentDate {
   date: Date;
   isPrevious: boolean;
@@ -55,4 +57,26 @@ export const getWeekColumnDayByIndex = (weekStartDate: Date, index: number) => {
       weekStartDate.getDate() + index
     )
   );
+};
+
+export const getWeekDateRange = (firstDateOfWeek: Date) => {
+  const lastDateOfWeek = new Date(
+    firstDateOfWeek.getFullYear(),
+    firstDateOfWeek.getMonth(),
+    firstDateOfWeek.getDate() + 6
+  );
+
+  const endOfWeek = [
+    MONTHS[lastDateOfWeek.getMonth()],
+    lastDateOfWeek.getFullYear(),
+  ];
+
+  const startOfWeek = [
+    MONTHS[firstDateOfWeek.getMonth()],
+    firstDateOfWeek.getFullYear(),
+  ].filter((value) => !endOfWeek.includes(value));
+
+  return startOfWeek.length
+    ? `${startOfWeek.join(" ")}-${endOfWeek.join(" ")}`
+    : endOfWeek.join(" ");
 };

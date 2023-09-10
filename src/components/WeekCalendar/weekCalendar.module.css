@@ -2,6 +2,7 @@
   display: flex;
   height: 100%;
   overflow: auto;
+  margin-top: 10px;
 }
 
 .dayColumn {
@@ -20,6 +21,10 @@
   text-align: center;
   display: block;
   position: relative;
+}
+
+.cell.headerCell {
+  border-left: none;
 }
 
 .cell.hourCell {

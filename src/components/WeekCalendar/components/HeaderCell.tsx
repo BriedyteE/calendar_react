@@ -14,7 +14,7 @@ function HeaderCell({
   isCurrentDay,
 }: HeaderCellProps) {
   return (
-    <time className={Styles.cell}>
+    <time className={`${Styles.cell} ${Styles.headerCell}`}>
       {DAY_NAMES[columnIndex].substring(0, 3).toUpperCase()}
       <span
         className={`${Styles.date} ${isCurrentDay ? Styles.currentDay : ""}`}

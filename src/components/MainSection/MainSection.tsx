@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Weekcalendar from "../WeekCalendar";
 import EventModal from "../EventModal";
@@ -13,6 +13,7 @@ import {
 import { CalendarEvent, SelectedEvent } from "../../types/events";
 import { converIndexToHour } from "../../utils/converters";
 import { DateAction } from "../../types/datesReducer";
+import Modal from "../Modal/Modal";
 
 interface MainSectionProps {
   firstDateOfWeek: Date;
@@ -23,11 +24,18 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
   const [selectedEvent, setSelectedEvent] = useState<SelectedEvent | null>(
     null
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: events } = useFetchEvents();
+  const { data: events, error: fetchEventsError } = useFetchEvents();
   const updateEventMutate = useUpdateEventMutate();
   const saveEventMutate = useSaveEventMutate();
   const deleteEventMutate = useDeleteEventMutate();
+
+  useEffect(() => {
+    if (fetchEventsError) {
+      setIsModalOpen(true);
+    }
+  }, [fetchEventsError]);
 
   const createNewEvent = (cellIndex: number, date: string) => {
     const startHour = converIndexToHour(cellIndex);
@@ -84,6 +92,15 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
         setSelectedEvent={(event) => setSelectedEvent(event)}
         dispatch={dispatch}
       />
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <p className={Styles.error}>Oops! Failed to fetch events!</p>
+          <p className={Styles.error}>
+            Please, make sure that the{" "}
+            <span>json-server --watch db/db.json</span> command was run:)
+          </p>
+        </Modal>
+      )}
     </main>
   );
 }

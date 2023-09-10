@@ -35,7 +35,7 @@ function Modal({ onClose, children, secondaryIconDetails }: ModalProps) {
           )}
           <IconButton imageSrc={Close} altText="Close" onClick={onClose} />
         </div>
-        {children}
+        <div className={Styles.content}>{children}</div>
       </div>
     </div>
   );

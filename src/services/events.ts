@@ -2,12 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CalendarEvent, SelectedEvent } from "../types/events";
 
 const fetchEvents = (): Promise<CalendarEvent[]> =>
-  fetch("http://localhost:3000/events").then((response) => {
-    if (!response.ok) {
-      throw new Error();
-    }
-    return response.json();
-  });
+  fetch("http://localhost:3000/events").then((response) => response.json());
 
 const saveEvent = (newEvent: SelectedEvent): Promise<CalendarEvent> =>
   fetch(`http://localhost:3000/events`, {
@@ -51,7 +46,10 @@ const deleteEvent = (eventId: number): Promise<number> =>
   });
 
 export const useFetchEvents = () =>
-  useQuery({ queryKey: ["events"], queryFn: fetchEvents });
+  useQuery<CalendarEvent[], Error>({
+    queryKey: ["events"],
+    queryFn: fetchEvents,
+  });
 
 export const useSaveEventMutate = () => {
   const queryClient = useQueryClient();

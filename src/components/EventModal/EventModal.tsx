@@ -3,11 +3,10 @@ import Styles from "./eventModal.module.css";
 import { useState } from "react";
 
 import DeleteIcon from "../../assets/delete-btn.svg";
-import Close from "../../assets/close-btn.svg";
 
-import IconButton from "../IconButton";
 import Button from "../Button";
 import Input from "../Input";
+import Modal from "../Modal/Modal";
 
 import { SelectedEvent } from "../../types/events";
 import { DateAction, DateActionType } from "../../types/datesReducer";
@@ -81,82 +80,68 @@ function EventModal({
     setSelectedEvent({ ...modalEvent, [inputName]: time });
   };
 
-  return (
-    <div
-      className={Styles.backdrop}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
+  const secondaryIconDetails = modalEvent.id
+    ? {
+        imageSrc: DeleteIcon,
+        altText: "Delete",
+        onClick: () => {
           setFormErrors(defaultErrorValues);
-          onClose();
-        }
+          onDelete(modalEvent.id as number);
+        },
+      }
+    : undefined;
+
+  return (
+    <Modal
+      onClose={() => {
+        setFormErrors(defaultErrorValues);
+        onClose();
       }}
+      secondaryIconDetails={secondaryIconDetails}
     >
-      <div className={Styles.modal}>
-        <div className={Styles.header}>
-          {modalEvent.id && (
-            <IconButton
-              imageSrc={DeleteIcon}
-              altText="Delete"
-              onClick={() => {
-                setFormErrors(defaultErrorValues);
-                onDelete(modalEvent.id as number);
-              }}
-            />
-          )}
-          <IconButton
-            imageSrc={Close}
-            altText="Close"
-            onClick={() => {
-              setFormErrors(defaultErrorValues);
-              onClose();
-            }}
+      <form
+        className={Styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          setFormErrors(defaultErrorValues);
+          submitForm(modalEvent);
+        }}
+      >
+        <Input
+          type="text"
+          name={FormFields.Title}
+          value={modalEvent.title}
+          placeholder="Add title"
+          onChange={(title) => setSelectedEvent({ ...modalEvent, title })}
+          errorText={formErrors.title}
+        />
+        <div className={Styles.date}>
+          <Input
+            type="date"
+            name={FormFields.StartDate}
+            value={modalEvent.startDate}
+            onChange={changeDate}
+          />
+          <Input
+            type="time"
+            name={FormFields.StartTime}
+            value={modalEvent.startTime}
+            onChange={validateAndChangeTime}
+          />
+          <Input
+            type="time"
+            name={FormFields.EndTime}
+            value={modalEvent.endTime}
+            onChange={validateAndChangeTime}
+            errorText={formErrors.endTime}
           />
         </div>
-
-        <form
-          className={Styles.form}
-          onSubmit={(e) => {
-            e.preventDefault();
-            setFormErrors(defaultErrorValues);
-            submitForm(modalEvent);
-          }}
-        >
-          <Input
-            type="text"
-            name={FormFields.Title}
-            value={modalEvent.title}
-            placeholder="Add title"
-            onChange={(title) => setSelectedEvent({ ...modalEvent, title })}
-            errorText={formErrors.title}
-          />
-          <div className={Styles.date}>
-            <Input
-              type="date"
-              name={FormFields.StartDate}
-              value={modalEvent.startDate}
-              onChange={changeDate}
-            />
-            <Input
-              type="time"
-              name={FormFields.StartTime}
-              value={modalEvent.startTime}
-              onChange={validateAndChangeTime}
-            />
-            <Input
-              type="time"
-              name={FormFields.EndTime}
-              value={modalEvent.endTime}
-              onChange={validateAndChangeTime}
-              errorText={formErrors.endTime}
-            />
-          </div>
-          <textarea rows={6}></textarea>
-          <div>
-            <Button isDisabled={!!formErrors.endTime} text="Save" />
-          </div>
-        </form>
-      </div>
-    </div>
+        <textarea rows={6}></textarea>
+        <div>
+          <Button isDisabled={!!formErrors.endTime} text="Save" />
+        </div>
+      </form>
+    </Modal>
   );
 }
 

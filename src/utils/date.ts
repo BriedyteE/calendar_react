@@ -40,7 +40,7 @@ export const getAdjecentWeek = ({ date, isPrevious }: GetAdjecentDate) => {
 
 export const getFirstDateOfWeek = (date: Date) => {
   const { year, month, dayOfMonth, dayOfWeek } = getDateData(date);
-  return new Date(year, month, dayOfMonth - dayOfWeek);
+  return new Date(year, month, dayOfMonth - dayOfWeek + 1);
 };
 
 export const getFirstDateOfMonth = (date: Date) => {

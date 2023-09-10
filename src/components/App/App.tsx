@@ -28,6 +28,30 @@ function App() {
   const [state, dispatch] = useReducer(datesReducer, defaultDates);
 
   const { formattedDate } = getDateData(state.selectedDate);
+  const firstDateOfWeek = getFirstDateOfWeek(state.selectedDate);
+
+  const getDateRange = () => {
+    const lastDateOfWeek = new Date(
+      firstDateOfWeek.getFullYear(),
+      firstDateOfWeek.getMonth(),
+      firstDateOfWeek.getDate() + 6
+    );
+
+    console.log("FIRST", firstDateOfWeek.toDateString());
+    console.log("LAST", lastDateOfWeek.toDateString());
+
+    const weekStart = [
+      firstDateOfWeek.getMonth(),
+      firstDateOfWeek.getFullYear(),
+    ];
+
+    const weekEnd = [
+      lastDateOfWeek.getMonth(),
+      lastDateOfWeek.getFullYear(),
+    ].filter((value) => !weekStart.includes(value));
+
+    return;
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -38,11 +62,9 @@ function App() {
             dispatch={dispatch}
             miniCalMonthStart={state.miniCalMonthStart}
             selectedDate={formattedDate}
+            dateRange={getDateRange()}
           />
-          <MainSection
-            firstDateOfWeek={getFirstDateOfWeek(state.selectedDate)}
-            dispatch={dispatch}
-          />
+          <MainSection firstDateOfWeek={firstDateOfWeek} dispatch={dispatch} />
         </div>
       </div>
     </QueryClientProvider>

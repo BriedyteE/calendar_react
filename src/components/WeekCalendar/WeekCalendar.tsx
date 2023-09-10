@@ -51,7 +51,7 @@ function Weekcalendar({
 
         const { dayOfMonth, formattedDate } = getWeekColumnDayByIndex(
           weekStartDate,
-          columnIndex
+          columnIndex - 1
         );
 
         return (

@@ -11,6 +11,7 @@ interface SidebarProps {
   miniCalMonthStart: Date;
   dispatch: React.Dispatch<DateAction>;
   selectedDate: string;
+  dateRange: string;
 }
 
 function Sidebar({ miniCalMonthStart, dispatch, selectedDate }: SidebarProps) {

@@ -19,16 +19,31 @@ function Input({
 }: InputProps) {
   return (
     <div className={Styles.wrapper}>
-      <input
-        type={type}
-        name={name}
-        value={value}
-        className={`${Styles.input} ${errorText ? Styles.errored : ""}`}
-        onChange={(e) => {
-          onChange(e.target.value, e.target.name);
-        }}
-        placeholder={placeholder}
-      />
+      {type === "textarea" ? (
+        <textarea
+          rows={6}
+          name={name}
+          className={`${Styles.input} ${errorText ? Styles.errored : ""}`}
+          onChange={(e) => {
+            onChange(e.target.value, e.target.name);
+          }}
+          placeholder={placeholder}
+        >
+          {value}
+        </textarea>
+      ) : (
+        <input
+          type={type}
+          name={name}
+          value={value}
+          className={`${Styles.input} ${errorText ? Styles.errored : ""}`}
+          onChange={(e) => {
+            onChange(e.target.value, e.target.name);
+          }}
+          placeholder={placeholder}
+        />
+      )}
+
       {errorText && <p className={Styles.error}>{errorText}</p>}
     </div>
   );

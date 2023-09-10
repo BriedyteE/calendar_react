@@ -136,7 +136,14 @@ function EventModal({
             errorText={formErrors.endTime}
           />
         </div>
-        <textarea rows={6}></textarea>
+        <Input
+          type="textarea"
+          name={FormFields.Description}
+          value={modalEvent.description || ""}
+          onChange={(description) =>
+            setSelectedEvent({ ...modalEvent, description })
+          }
+        />
         <div>
           <Button isDisabled={!!formErrors.endTime} text="Save" />
         </div>

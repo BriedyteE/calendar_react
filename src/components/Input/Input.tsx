@@ -28,9 +28,8 @@ function Input({
             onChange(e.target.value, e.target.name);
           }}
           placeholder={placeholder}
-        >
-          {value}
-        </textarea>
+          value={value}
+        />
       ) : (
         <input
           type={type}

@@ -18,7 +18,7 @@ interface EventModalProps {
   modalEvent: SelectedEvent | null;
   onClose: () => void;
   submitForm: (event: SelectedEvent) => void;
-  onDelete: (id: number) => void;
+  deleteEvent: (id: number) => void;
   setSelectedEvent: (event: SelectedEvent) => void;
   dispatch: React.Dispatch<DateAction>;
 }
@@ -40,7 +40,7 @@ function EventModal({
   modalEvent,
   onClose,
   submitForm,
-  onDelete,
+  deleteEvent,
   setSelectedEvent,
   dispatch,
 }: EventModalProps) {
@@ -80,13 +80,23 @@ function EventModal({
     setSelectedEvent({ ...modalEvent, [inputName]: time });
   };
 
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!modalEvent.title.trim()) {
+      setFormErrors({ ...formErrors, [FormFields.Title]: "Required" });
+      return;
+    }
+    setFormErrors(defaultErrorValues);
+    submitForm(modalEvent);
+  };
+
   const secondaryIconDetails = modalEvent.id
     ? {
         imageSrc: DeleteIcon,
         altText: "Delete",
         onClick: () => {
           setFormErrors(defaultErrorValues);
-          onDelete(modalEvent.id as number);
+          deleteEvent(modalEvent.id as number);
         },
       }
     : undefined;
@@ -99,20 +109,16 @@ function EventModal({
       }}
       secondaryIconDetails={secondaryIconDetails}
     >
-      <form
-        className={Styles.form}
-        onSubmit={(e) => {
-          e.preventDefault();
-          setFormErrors(defaultErrorValues);
-          submitForm(modalEvent);
-        }}
-      >
+      <form className={Styles.form} onSubmit={onSubmit}>
         <Input
           type="text"
           name={FormFields.Title}
           value={modalEvent.title}
           placeholder="Add title"
-          onChange={(title) => setSelectedEvent({ ...modalEvent, title })}
+          onChange={(title) => {
+            setFormErrors({ ...formErrors, [FormFields.Title]: "" });
+            setSelectedEvent({ ...modalEvent, title });
+          }}
           errorText={formErrors.title}
         />
         <div className={Styles.date}>

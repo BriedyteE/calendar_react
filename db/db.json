@@ -28,10 +28,10 @@
       "endTime": "05:30"
     },
     {
-      "title": "sadas",
-      "startDate": "2023-09-15",
-      "startTime": "02:00",
-      "endTime": "08:30",
+      "title": "sadassd",
+      "startDate": "2023-10-22",
+      "startTime": "00:00",
+      "endTime": "03:34",
       "id": 5
     },
     {
@@ -64,9 +64,9 @@
     },
     {
       "title": "Event with descriotion",
-      "startDate": "2023-09-13",
+      "startDate": "2023-09-17",
       "startTime": "02:00",
-      "endTime": "02:30",
+      "endTime": "07:34",
       "description": "cool desciption",
       "id": 10
     }

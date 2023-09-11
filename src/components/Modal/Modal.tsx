@@ -3,6 +3,7 @@ import Styles from "./modal.module.css";
 import Close from "../../assets/close-btn.svg";
 
 import IconButton from "../IconButton";
+import { useEffect } from "react";
 
 interface ModalProps {
   onClose: () => void;
@@ -15,6 +16,17 @@ interface ModalProps {
 }
 
 function Modal({ onClose, children, secondaryIconDetails }: ModalProps) {
+  const keyPress = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", keyPress);
+    return () => document.removeEventListener("keydown", keyPress);
+  }, [keyPress]);
+
   return (
     <div
       className={Styles.backdrop}

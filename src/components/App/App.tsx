@@ -2,6 +2,7 @@ import Styles from "./app.module.css";
 
 import { useReducer } from "react";
 import { datesReducer } from "../../reducers/datesReducer";
+import { defaultDates } from "../../config/constants";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -14,7 +15,6 @@ import {
   getFirstDateOfWeek,
   getWeekDateRange,
 } from "../../utils/date";
-import { defaultDates } from "../../config/constants";
 
 const queryClient = new QueryClient({
   defaultOptions: {

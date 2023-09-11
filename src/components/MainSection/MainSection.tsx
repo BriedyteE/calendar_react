@@ -67,7 +67,7 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
   return (
     <main className={Styles.main}>
       <Weekcalendar
-        weekStartDate={firstDateOfWeek}
+        firstDateOfWeek={firstDateOfWeek}
         onCellClick={(e, cellIndex, date) => {
           if (e.target === e.currentTarget) {
             const newEvent = createNewEvent(cellIndex, date);
@@ -90,7 +90,7 @@ function MainSection({ firstDateOfWeek, dispatch }: MainSectionProps) {
         <Modal onClose={() => setIsErrorModalOpen(false)}>
           <p className={Styles.error}>Oops! Failed to fetch events!</p>
           <p className={Styles.error}>
-            Please, make sure that the{" "}
+            Please, make sure that the
             <span>json-server --watch db/db.json</span> command was run:)
           </p>
         </Modal>

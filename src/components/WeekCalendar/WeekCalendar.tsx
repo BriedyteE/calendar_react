@@ -11,7 +11,7 @@ import EventSlot from "./components/EventSlot";
 import { useRef } from "react";
 
 interface WeekCalendarProps {
-  weekStartDate: Date;
+  firstDateOfWeek: Date;
   onCellClick: (e: React.MouseEvent, cellIndex: number, date: string) => void;
   events?: CalendarEvent[];
   selectedEvent: SelectedEvent | null;
@@ -19,13 +19,13 @@ interface WeekCalendarProps {
 }
 
 function Weekcalendar({
-  weekStartDate,
+  firstDateOfWeek,
   onCellClick,
   events,
   selectedEvent,
   onEventSlotClick,
 }: WeekCalendarProps) {
-  const columnIndexes = [...Array(8).keys()];
+  const columnIndexes = [...Array(7).keys()];
   const cellIndexes = [...Array(25).keys()];
 
   const cellRef = useRef<HTMLDivElement>(null);
@@ -39,21 +39,15 @@ function Weekcalendar({
     return event.startDate === columnDate && eventStartHour === cellIndex - 1;
   };
 
-  const filterCellEvents = (columnDate: string, cellIndex: number) =>
-    events?.filter((event) => isCurrentCellEvent(event, columnDate, cellIndex));
-
   return (
     <div className={Styles.calendar}>
-      {columnIndexes.map((columnIndex) => {
-        if (columnIndex === 0) {
-          return <HoursColumn cellIndexes={cellIndexes} key={columnIndex} />;
-        }
+      <div className={Styles.dayColumn}>
+        <HoursColumn cellIndexes={cellIndexes} />
+      </div>
 
-        const colunDate = getDayCountingFromDate(
-          weekStartDate,
-          columnIndex - 1
-        );
-        const { formattedDate, dayOfMonth } = getDateData(colunDate);
+      {columnIndexes.map((columnIndex) => {
+        const columnDate = getDayCountingFromDate(firstDateOfWeek, columnIndex);
+        const { formattedDate, dayOfMonth } = getDateData(columnDate);
 
         return (
           <div className={Styles.dayColumn} key={formattedDate}>
@@ -61,15 +55,17 @@ function Weekcalendar({
               if (cellIndex === 0) {
                 return (
                   <HeaderCell
-                    columnIndex={columnIndex}
+                    dayNameKey={columnIndex + 1}
                     dayOfMonth={dayOfMonth}
                     isCurrentDay={formattedDate === currentDate.formattedDate}
-                    key={DAY_NAMES[columnIndex]}
+                    key={DAY_NAMES[columnIndex + 1]}
                   />
                 );
               }
 
-              const cellEvents = filterCellEvents(formattedDate, cellIndex);
+              const cellEvents = events?.filter((event) =>
+                isCurrentCellEvent(event, formattedDate, cellIndex)
+              );
 
               return (
                 <div
@@ -92,6 +88,7 @@ function Weekcalendar({
                       );
                     }
                   })}
+
                   {selectedEvent &&
                     isCurrentCellEvent(
                       selectedEvent,

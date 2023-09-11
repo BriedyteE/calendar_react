@@ -41,9 +41,7 @@ function Weekcalendar({
 
   return (
     <div className={Styles.calendar}>
-      <div className={Styles.dayColumn}>
-        <HoursColumn cellIndexes={cellIndexes} />
-      </div>
+      <HoursColumn cellIndexes={cellIndexes} />
 
       {columnIndexes.map((columnIndex) => {
         const columnDate = getDayCountingFromDate(firstDateOfWeek, columnIndex);
